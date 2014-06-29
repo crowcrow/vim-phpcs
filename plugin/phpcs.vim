@@ -57,11 +57,16 @@ function! s:CodeSniff(extraarg)
     let l:phpcs_opts     = ' '.l:extraarg.' --report=csv --standard='.l:phpcs_standard
 	let l:phpcs_output   = system(l:phpcs_cmd.l:phpcs_opts.' '.l:filename)
     let l:phpcs_output   = substitute(l:phpcs_output, '\\"', "'", 'g')
-	let l:phpcs_results  = split(l:phpcs_output, "\n")
-	unlet l:phpcs_results[0]
-	copen	
-	cexpr l:phpcs_results
-endfunction
+    let l:phpcs_results  = split(l:phpcs_output, "\n")
+    unlet l:phpcs_results[0]
+    if empty(l:phpcs_results)
+        cclose
+    else
+        copen   
+        cexpr l:phpcs_results
+    endif
+ endfunction
+
 
 set errorformat+=\"%f\"\\,%l\\,%c\\,%t%*[a-zA-Z]\\,\"%m\"\\,%*[a-zA-Z0-9_.-]\\,%*[0-9]
 command! CodeSniff :call <SID>CodeSniff('')
