@@ -59,7 +59,7 @@ function! s:CodeSniff(extraarg)
     let l:phpcs_output   = substitute(l:phpcs_output, '\\"', "'", 'g')
 	let l:phpcs_results  = split(l:phpcs_output, "\n")
 	unlet l:phpcs_results[0]
-	copen
+	copen	
 	cexpr l:phpcs_results
 endfunction
 
